@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
 import MovieItem from './MovieItem'
+import MoviesList from './MoviesList'
 import IsLoading from  './IsLoading'
 import { connect } from 'react-redux'
 import { getMoviesFromApiWithSearchText } from '../API/TMDBApi'
@@ -74,17 +75,11 @@ class Search extends React.Component {
                     onSubmitEditing={ () => this._searchMovies()}
                 />
                 <Button title='Rechercher' onPress={() => this._searchMovies()} />
-                <FlatList
-                    data = {this.state.movies}
-                    keyExtractor={ ( item ) => item.id.toString() }
-                    renderItem = { ( {item} ) => <MovieItem isFavorite={this._isFavorite(item)} displayMovieDetails={this._displayMovieDetails} movie={item}/>}
-                    onEndReachedThreshold={0.5}
-                    extraData={this.props.favoriteMovies}
-                    onEndReached={ () => {
-                            if (this.state.page < this._totalPages) {
-                                this._loadMovies()
-                            }
-                        }}
+                <MoviesList
+                    movies = {this.state.movies}
+                    page={this.state.page}
+                    totalPages={this._totalPages}
+                    loadMovies={this._loadMovies}
                 />
                 {this._displayingLoading()}
             </View>
