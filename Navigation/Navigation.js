@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer, createBottomTabNavigator } fr
 import Search from '../Components/Search'
 import MovieDetails from '../Components/MovieDetails'
 import Favorite from '../Components/Favorite'
+import Map from '../Components/Map'
 import { Image, StyleSheet } from "react-native";
 import React from 'react'
 
@@ -20,6 +21,30 @@ const searchStackNavigator = createStackNavigator({
     }
 })
 
+const favoriteStackNavigator = createStackNavigator({
+    Favorite: {
+        screen: Favorite,
+        navigationOptions: {
+            title: 'Favorie'
+        }
+    },
+    MovieDetails: {
+        screen: MovieDetails,
+        navigationOptions: {
+            title: 'Details'
+        }
+    }
+})
+
+const mapStackNavigator = createStackNavigator({
+    Map: {
+        screen: Map,
+        navigationOptions: {
+            title: 'Geoloc'
+        }
+    }
+})
+
 const MoviesTabNavigator = createBottomTabNavigator({
     Search: {
         screen: searchStackNavigator,
@@ -32,8 +57,19 @@ const MoviesTabNavigator = createBottomTabNavigator({
             }
         }
     },
+    Map: {
+        screen: mapStackNavigator,
+        navigationOptions: {
+            tabBarIcon: () => {
+                return <Image
+                    source={require('../Images/ic_search.png')}
+                    style={styles.tab_image}
+                />
+            }
+        }
+    },
     Favorite: {
-        screen: Favorite,
+        screen: favoriteStackNavigator,
         navigationOptions:{
             tabBarIcon: () => {
                 return <Image

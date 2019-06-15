@@ -24,6 +24,14 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.myapp.ateka",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCt9leXrpB4i6wi7lGnGhOaD6BGDF5ld-0"
+        }
+      }
     }
   }
 }

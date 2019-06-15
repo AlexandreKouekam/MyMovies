@@ -1,9 +1,7 @@
 import React from 'react'
-import { StyleSheet, View, TextInput, Button, FlatList, Text, ActivityIndicator } from 'react-native'
-import MovieItem from './MovieItem'
+import { StyleSheet, View, TextInput, Button} from 'react-native'
 import MoviesList from './MoviesList'
 import IsLoading from  './IsLoading'
-import { connect } from 'react-redux'
 import { getMoviesFromApiWithSearchText } from '../API/TMDBApi'
 
 class Search extends React.Component {
@@ -12,25 +10,17 @@ class Search extends React.Component {
         super(props)
         this._totalPages = 0
         this.state = {
-            movies: [],
             page: 0,
             isLoading: false
         }
         this._searchedText = ''
     }
 
-    _loadMovies() {
+    _loadMovies = () => {
         if (this._searchedText.length > 0){
             this.setState( {isLoading: true})
             getMoviesFromApiWithSearchText(this._searchedText, this.state.page+1).then(data => {
-                this._totalPages = data.total_pages
-                this.setState(
-                    {
-                        page: data.page,
-                        movies: [ ...this.state.movies, ...data.results],
-                        isLoading: false
-                    }
-                )
+                console
             })
         }
     }
@@ -57,20 +47,12 @@ class Search extends React.Component {
         }
     }
 
-    _displayMovieDetails = (idMovie) => {
-        this.props.navigation.navigate('MovieDetails', {idMovie: idMovie})
-    }
-
-    _isFavorite(movie){
-        return  (this.props.favoriteMovies.findIndex(item => item.id === movie.id) !== -1)
-    }
-
     render() {
         return (
             <View style={styles.main_container}>
                 <TextInput
                     style={styles.textinput}
-                    placeholder='Titre du film'
+                    placeholder='Nom du snack'
                     onChangeText={ (text) => this._searchTextChanged(text)}
                     onSubmitEditing={ () => this._searchMovies()}
                 />
@@ -80,6 +62,7 @@ class Search extends React.Component {
                     page={this.state.page}
                     totalPages={this._totalPages}
                     loadMovies={this._loadMovies}
+                    navigation={this.props.navigation}
                 />
                 {this._displayingLoading()}
             </View>
@@ -101,10 +84,6 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
-        favoriteMovies: state.favoriteMovies
-    }
-}
 
-export default connect(mapStateToProps)(Search)
+
+export default Search
